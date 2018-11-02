@@ -1,0 +1,10 @@
+# Workspace settings
+.vscode/
+
+# Copied Headers for the Library
+include/x11_game_engine
+
+# Binary / Library files generated
+build/
+bin/
+lib/

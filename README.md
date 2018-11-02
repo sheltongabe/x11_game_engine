@@ -1,2 +1,3 @@
 # x11_game_engine
-Wrap x11 c level calls, to look like a normal 2d game engine, with c++14
+
+Wrap X11 C level calls, to look like a normal 2d game engine, with C++14.
