@@ -2,7 +2,7 @@
 # @file		CMakeLists.txt (./src)
 # @brief	Compile the x11_game_engine library with a static library for now
 #
-# @date		2018-11-02
+# @date		2018-11-05
 # @author	Gabriel Shelton
 
 cmake_minimum_required(VERSION 2.8)
@@ -20,7 +20,7 @@ file(COPY ${LIB_HEADERS} DESTINATION ${DIRECTORY_NAME})
 
 # Source Files
 set(LIBRARY_SOURCE_FILES
-	"test.cpp"
+	"x_screen.cpp"
 )
 
 add_library("${LIBRARY_NAME}_static" STATIC 

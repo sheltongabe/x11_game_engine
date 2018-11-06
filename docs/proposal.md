@@ -24,6 +24,7 @@ be drawn to it and this is the surface that the game code will interact with.
 
 ## Timeline
 
- Deadline  |     Task      | Complete(Y/N)
------------|---------------|--------------
-2018-11-02 | Initial Setup |      Y
+ Deadline  |      Task       | Complete(Y/N)
+-----------|-----------------|--------------
+2018-11-02 | Initial Setup   |      Y
+2018-11-05 | XWindow wrapper |      Y
