@@ -8,3 +8,6 @@ include/x11_game_engine
 build/
 bin/
 lib/
+
+# Ignore Umlet format uml diagrams
+*.uxf

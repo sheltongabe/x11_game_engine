@@ -8,6 +8,7 @@
  */
 
 #include "x_screen.h"
+#include "sprite.h"
 #include <stdexcept>
 
 //
@@ -40,6 +41,8 @@ XScreen::XScreen(const char* name, const char* title,
 	XClearWindow(this->xDisplay, this->mainWindow);
 	XRaiseWindow(this->xDisplay, this->mainWindow);
 	XMapWindow(this->xDisplay, this->mainWindow);
+
+	Sprite s(this->xDisplay, 30, 30);
 }
 
 //
