@@ -43,6 +43,7 @@ XScreen::XScreen(const char* name, const char* title,
 	XMapWindow(this->xDisplay, this->mainWindow);
 
 	Sprite s(this->xDisplay, 30, 30);
+	s.setColor("blue");
 }
 
 //

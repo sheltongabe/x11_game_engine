@@ -20,6 +20,7 @@ file(COPY ${LIB_HEADERS} DESTINATION ${DIRECTORY_NAME})
 
 # Source Files
 set(LIBRARY_SOURCE_FILES
+	"x_display.cpp"
 	"x_screen.cpp"
 	"sprite.cpp"
 )
