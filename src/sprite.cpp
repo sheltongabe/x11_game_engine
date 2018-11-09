@@ -9,6 +9,8 @@
  *  @version	0.0
  */
 
+#include "string.h"
+
 #include "sprite.h"
 
 // 
@@ -19,10 +21,9 @@ Sprite::Sprite(Display* display, unsigned int width, unsigned int height) :
 		width(width),
 		height(height) {
 	// Create image
-	int defaultScreen = XDefaultScreen(this->xDisplay);
-	this->cmap = DefaultColormap(display, defaultScreen);
-	this->image = XCreatePixmap(this->xDisplay, RootWindow(this->xDisplay, defaultScreen), 
-			this->width, this->height, DefaultDepth(this->xDisplay, defaultScreen));
+	int defaultScreen = XDisplay::getScreen();
+	this->image = XCreatePixmap(display, XDisplay::getRootWindow(), 
+			this->width, this->height, DefaultDepth(display, defaultScreen));
 
 	// Create Graphics context
 	XGCValues values;
@@ -40,51 +41,63 @@ Sprite::Sprite(Sprite& copy) {
 // drawPoint (int, int)
 //
 void Sprite::drawPoint(int x, int y) {
-
+	XDrawPoint(XDisplay::getDisplay(), this->image,
+			this->graphicsContext, x, y);
 }
 
 // 
 // drawLine(int, int, int, int)
 //
 void Sprite::drawLine(int x1, int y1, int x2, int y2) {
-
+	XDrawLine(XDisplay::getDisplay(), this->image, this->graphicsContext,
+			x1, y1, x2, y2);
 }
 
 // 
 // drawRectangle(int, int, int, int)
 //
 void Sprite::drawRectangle(int x, int y, int width, int height) {
-
+	XDrawRectangle(XDisplay::getDisplay(), this->image, this->graphicsContext,
+			x, y, width, height);
 }
 
 // 
 // fillRectangle(int, int, int, int)
 //
 void Sprite::fillRectangle(int x, int y, int width, int height) {
-
+	XFillRectangle(XDisplay::getDisplay(), this->image, this->graphicsContext,
+			x, y, width, height);
 }
 
 // 
 // drawString(int, int, const char*)
 //
 void Sprite::drawString(int x, int y, const char* message) {
-
+	XDrawString(XDisplay::getDisplay(), this->image, this->graphicsContext,
+			x, y, message, strlen(message));
 }
 // 
 // drawString(int, int, const std::string&)
 //
 void Sprite::drawString(int x, int y, const std::string& message) {
-
+	Sprite::drawString(x, y, message.c_str());
 }
 
 // 
 // setColor(const char*)
 //
 void Sprite::setColor(const char* color_name) {
-	XColor color;
-	XParseColor(this->xDisplay, this->cmap, color_name, &color);
-	XAllocColor(this->xDisplay, this->cmap, &color);
-	XSetForeground(this->xDisplay, this->graphicsContext, color.pixel);
+	unsigned long color = XDisplay::getColor(color_name);
+	XSetForeground(this->xDisplay, this->graphicsContext, color);
+}
+
+// 
+// draw (int, int, Window)
+//
+void Sprite::draw(int x, int y, Window destination) {
+	XCopyArea(XDisplay::getDisplay(), this->image,
+			destination, this->graphicsContext, 0, 0,
+			this->width, this->height, x, y);
 }
 
 //
@@ -93,5 +106,4 @@ void Sprite::setColor(const char* color_name) {
 Sprite::~Sprite() {
 	XFreePixmap(this->xDisplay, this->image);
 	XFreeGC(this->xDisplay, this->graphicsContext);
-	XFreeColormap(this->xDisplay, this->cmap);
 }

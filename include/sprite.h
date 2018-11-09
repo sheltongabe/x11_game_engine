@@ -10,8 +10,10 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include "x_screen.h"
 #include <string>
+
+#include "x_screen.h"
+#include "x_display.h"
 
 /**
  * @class		Sprite
@@ -106,6 +108,15 @@ class Sprite {
 		 * @param	const char*		color name
 		 */
 		void setColor(const char* color_name);
+
+		/**
+		 * @brief	Draw the sprite onto the passed window, at the specified location
+		 * 
+		 * @param	int 	x
+		 * @param	int 	y
+		 * @param	Window	destination
+		 */
+		void draw(int x, int y, Window destination);
 
 		/**
 		 * 	@brief	Destructor

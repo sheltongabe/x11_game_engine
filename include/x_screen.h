@@ -10,8 +10,7 @@
 #ifndef XSCREEN_H
 #define XSCREEN_H
 
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
+#include "x_display.h"
 
 /**
  * 	@class		XScreen
@@ -50,8 +49,6 @@ class XScreen {
 
 	protected:
 		/// Display to connect to
-		Display* xDisplay;
-		int screen;
 
 		/// Window to draw on
 		Window mainWindow;
