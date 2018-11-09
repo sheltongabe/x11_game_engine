@@ -35,6 +35,14 @@ class Sprite {
 		Sprite(Display* display, unsigned int width, unsigned int height);
 
 		/**
+		 * @brief	Initialize the internal Pixmap with a file
+		 * 
+		 * @version	0.1
+		 */
+		Sprite(Display* display, Window w, const char* filename);
+		Sprite(Display* display, Window w, std::string filename);
+
+		/**
 		 * 	@brief	Copy Constructor
 		 * 
 		 * 	Details
@@ -140,8 +148,6 @@ class Sprite {
 		// Dimensions of the sprite
 		unsigned int width, height;
 
-		/// Colormap
-		Colormap cmap;
 };
 
 #endif

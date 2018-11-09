@@ -41,9 +41,12 @@ XScreen::XScreen(const char* name, const char* title,
 	XMapWindow(display, this->mainWindow);
 
 	Sprite s(display, 30, 30);
-	s.setColor("white");
+	s.setColor("black");
 	s.drawLine(0, 0, 30, 30);
 	s.draw(0, 0, this->mainWindow);
+
+	//Sprite s2(display, this->mainWindow, "test.xbm");
+	//s2.draw(0, 0, this->mainWindow);
 }
 
 //

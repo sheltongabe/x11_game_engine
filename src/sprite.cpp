@@ -9,12 +9,13 @@
  *  @version	0.0
  */
 
-#include "string.h"
+#include <string.h>
+#include <stdexcept>
 
 #include "sprite.h"
 
 // 
-// Initialization Constructor
+// Initialization Constructor of a blank sprite
 //
 Sprite::Sprite(Display* display, unsigned int width, unsigned int height) :
 		xDisplay(display),
@@ -28,6 +29,36 @@ Sprite::Sprite(Display* display, unsigned int width, unsigned int height) :
 	// Create Graphics context
 	XGCValues values;
 	this->graphicsContext = XCreateGC(this->xDisplay, this->image, (unsigned long)0, &values);
+
+	this->setColor("white");
+	this->fillRectangle(0, 0, this->width, this->height);
+}
+
+//
+// Initalization constructor for a sprite that loads from a file
+//
+Sprite::Sprite(Display* display, Window d, const char* filename) :
+		xDisplay(display) {
+	// Return values for loading the file
+	int x_hot, y_hot;
+	int status = XReadBitmapFile(display, d, filename, 
+			&(this->width), &(this->height), &(this->image),
+			&x_hot, &y_hot);
+	if(status != BitmapSuccess)
+		throw std::runtime_error(std::string("Image file unable to load") +
+				std::string(filename));
+
+	// Create Graphics context
+	XGCValues values;
+	this->graphicsContext = XCreateGC(this->xDisplay, this->image, (unsigned long)0, &values);
+}
+
+// 
+// Initialize with a string filename
+//
+Sprite::Sprite(Display* display, Window w, std::string filename) :
+		Sprite(display, w, filename.c_str()) {
+	// Delegates to the constructor that works with c-strings
 }
 
 //
