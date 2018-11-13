@@ -111,6 +111,11 @@ class Sprite {
 		void drawString(int x, int y, const std::string& message);
 
 		/**
+		 * @brief	Clear the sprite
+		 */
+		void clear();
+
+		/**
 		 * @brief	Set the color of the foreground
 		 * 
 		 * @param	const char*		color name
@@ -144,6 +149,7 @@ class Sprite {
 
 		/// gc to draw on this particular Sprite
 		GC graphicsContext;
+		Font font;
 
 		// Dimensions of the sprite
 		unsigned int width, height;

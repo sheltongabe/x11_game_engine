@@ -42,6 +42,11 @@ class XScreen {
 		void flushEvents();
 
 		/**
+		 * @brief	Return the primary window
+		 */
+		Window getWindow() { return this->mainWindow; }
+
+		/**
 		 * 	@brief	Destructor
 		 * 	@version	0.1
 		 */

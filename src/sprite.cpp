@@ -28,10 +28,12 @@ Sprite::Sprite(Display* display, unsigned int width, unsigned int height) :
 
 	// Create Graphics context
 	XGCValues values;
+	XFontStruct* font_info = XLoadQueryFont(this->xDisplay, "fixed");
 	this->graphicsContext = XCreateGC(this->xDisplay, this->image, (unsigned long)0, &values);
+	XSetFont(this->xDisplay, this->graphicsContext, font_info->fid);
+	this->font = font_info->fid;
 
-	this->setColor("white");
-	this->fillRectangle(0, 0, this->width, this->height);
+	this->clear();
 }
 
 //
@@ -115,6 +117,14 @@ void Sprite::drawString(int x, int y, const std::string& message) {
 }
 
 // 
+// clear ()
+//
+void Sprite::clear() {
+	this->setColor("white");
+	this->fillRectangle(0, 0, this->width, this->height);
+}
+
+// 
 // setColor(const char*)
 //
 void Sprite::setColor(const char* color_name) {
@@ -136,5 +146,6 @@ void Sprite::draw(int x, int y, Window destination) {
 //
 Sprite::~Sprite() {
 	XFreePixmap(this->xDisplay, this->image);
+	XUnloadFont(this->xDisplay, this->font);
 	XFreeGC(this->xDisplay, this->graphicsContext);
 }

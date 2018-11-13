@@ -39,21 +39,19 @@ XScreen::XScreen(const char* name, const char* title,
 	XClearWindow(display, this->mainWindow);
 	XRaiseWindow(display, this->mainWindow);
 	XMapWindow(display, this->mainWindow);
-
-	Sprite s(display, 30, 30);
-	s.setColor("black");
-	s.drawLine(0, 0, 30, 30);
-	s.draw(0, 0, this->mainWindow);
-
-	//Sprite s2(display, this->mainWindow, "test.xbm");
-	//s2.draw(0, 0, this->mainWindow);
 }
 
 //
 // Flush Events
 //
 void XScreen::flushEvents() {
-	XFlush(XDisplay::getDisplay());
+	auto display = XDisplay::getDisplay();
+
+	// Clear all the pending events
+	while(XPending(display) > 0) {
+		XEvent e;
+		XNextEvent(display, &e);
+	}
 }
 
 //
@@ -63,5 +61,4 @@ XScreen::~XScreen() {
 	auto display = XDisplay::getDisplay();
 	XDestroyWindow(display, this->mainWindow);
 	XFreeGC(display, this->graphicsContext);
-	delete XDisplay::get();
 }

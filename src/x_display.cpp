@@ -111,5 +111,5 @@ XDisplay::~XDisplay() {
 	}
 	XFreeColors(this->display, this->cmap, pixels, colors.size(), (unsigned long)0);
 	XFreeColormap(this->display, this->cmap);
-	XCloseDisplay(this->display);
+	//XCloseDisplay(this->display);
 }

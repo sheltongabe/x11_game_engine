@@ -23,6 +23,7 @@ set(LIBRARY_SOURCE_FILES
 	"x_display.cpp"
 	"x_screen.cpp"
 	"sprite.cpp"
+	"game.cpp"
 )
 
 add_library("${LIBRARY_NAME}_static" STATIC 
