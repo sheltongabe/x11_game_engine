@@ -21,7 +21,11 @@ Game::Game(const char* name, const char* title, int width, int height) :
 		width(width),
 		height(height),
 		isRunning(true),
-		isPaused(false) {
+		isPaused(false),
+		s(new Sprite(XDisplay::getDisplay(), 30, 30)),
+		frameRateSprite(new Sprite(XDisplay::getDisplay(), 100, 20)),
+		lastFPS(0),
+		s3(new Sprite(XDisplay::getDisplay(), 50, 50)) {
 	// Initialize the X11 server
 	XDisplay::get();
 	this->xScreen = new XScreen(name, title, width, height);
@@ -43,32 +47,80 @@ void Game::mainLoop() {
 	auto endTime = currentTimeInNano();
 	double oneSecondInNano = 1 * 1000 * 1000 * 1000;
 	std::chrono::duration<double, std::nano> targetTime(oneSecondInNano / this->TARGET_FPS);
-	std::cout << targetTime.count() << '\n';
 
-	Sprite frameRateSprite(XDisplay::getDisplay(), 50, 30);
-	Sprite s(XDisplay::getDisplay(), 30, 30);
-	int frameCounter = 0, lastFPS = 0;
+	int frameCounter = 0;
 	double timeSinceLastFrameLog = 0.0;
 
 	while(this->isRunning) {
-		initialTime = currentTimeInNano();
-
-		// Do things
-
-		this->xScreen->flushEvents();
-		
 		endTime = currentTimeInNano();
+		//this->xScreen->flushEvents();
+		this->internalProcessEvents();
+		
 		std::chrono::duration<double, std::nano> elapsed = endTime - initialTime;
+		this->update(elapsed.count() / targetTime.count());
+		this->render(this->xScreen->getWindow());
 		
 		std::this_thread::sleep_for(targetTime - elapsed);
 
 		timeSinceLastFrameLog += (currentTimeInNano() - initialTime).count();
 		++frameCounter;
 		if(timeSinceLastFrameLog > oneSecondInNano) {
-			std::cout << "FPS: " << lastFPS << '\n';
 			timeSinceLastFrameLog = 0.0;
-			lastFPS = frameCounter;
+			this->lastFPS = frameCounter;
 			frameCounter = 0;
+		}
+		initialTime = currentTimeInNano();
+	}
+}
+
+//
+// update (double)
+//
+void Game::update(double percentTimeElapsed) {
+
+}
+
+// 
+// render (Window)
+//
+void Game::render(Window window) {
+	this->s->setColor("black");
+	this->s->drawLine(0, 0, 30, 30);
+	this->s->draw(0, 0, window);
+
+	this->s3->setColor("black");
+	this->s3->fillRectangle(0, 0, 50, 50);
+	this->s3->draw(400, 300, window);
+
+	this->frameRateSprite->clear();
+	this->frameRateSprite->setColor("black");
+	this->frameRateSprite->drawString(0, 10, std::string("FPS: ") + std::to_string(this->lastFPS));
+	this->frameRateSprite->draw(700, 10, window);
+}
+
+// 
+// internalProcessEvents ()
+//
+void Game::internalProcessEvents() {
+	auto display = XDisplay::getDisplay();
+	
+	// Process Game / System level events
+	// TODO delegate game events (keyboard, mouse, etc... to an event Queue)
+	while(XPending(display) > 0) {
+		// Grab and store the next event
+		XEvent e;
+		XNextEvent(display, &e);
+
+		// Take a particular action
+		switch(e.type) {
+			case Expose:
+
+				break;
+			
+			case ClientMessage:
+				if(e.xclient.data.l[0] == XDisplay::getWMDeleteMessage())
+					this->isRunning = false;
+				break;
 		}
 	}
 }
@@ -78,6 +130,9 @@ void Game::mainLoop() {
 //
 Game::~Game() {
 	delete this->xScreen;
+	delete this->s;
+	delete this->s3;
+	delete this->frameRateSprite;
 	delete XDisplay::get();
 }
 
@@ -85,14 +140,6 @@ Game::~Game() {
 From Game Loop
 
 
-		s.setColor("black");
-		s.drawLine(0, 0, 30, 30);
-		s.draw(0, 0, this->xScreen->getWindow());
-
-		frameRateSprite.clear();
-		frameRateSprite.setColor("black");
-		frameRateSprite.drawString(0, 0, "test text");
-		frameRateSprite.draw(50, 100, this->xScreen->getWindow());
 
 		//Sprite s2(display, this->mainWindow, "test.xbm");
 		//s2.draw(0, 0, this->mainWindow);

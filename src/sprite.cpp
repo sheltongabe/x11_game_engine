@@ -28,10 +28,9 @@ Sprite::Sprite(Display* display, unsigned int width, unsigned int height) :
 
 	// Create Graphics context
 	XGCValues values;
-	XFontStruct* font_info = XLoadQueryFont(this->xDisplay, "fixed");
+	this->font = XLoadFont(this->xDisplay, "fixed");
 	this->graphicsContext = XCreateGC(this->xDisplay, this->image, (unsigned long)0, &values);
-	XSetFont(this->xDisplay, this->graphicsContext, font_info->fid);
-	this->font = font_info->fid;
+	XSetFont(this->xDisplay, this->graphicsContext, this->font);
 
 	this->clear();
 }

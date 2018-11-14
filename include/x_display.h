@@ -52,6 +52,12 @@ class XDisplay {
 		static Window getRootWindow();
 
 		/**
+		 * @brief	return the settings for the delete of a window
+		 * @return	Atom* 	settings for the delete of a window
+		 */
+		static Atom getWMDeleteMessage();
+
+		/**
 		 * @brief	get the colormap that is linked with the server
 		 * @return 	Colormap 	cmap linked with server
 		 */
@@ -93,6 +99,9 @@ class XDisplay {
 
 		/// Root window for this display and screen
 		Window root_window;
+
+		/// Window manager delete parent window settings
+		Atom wmDeleteMessage; 
 
 		/// Colormap for this X11 connection
 		Colormap cmap;

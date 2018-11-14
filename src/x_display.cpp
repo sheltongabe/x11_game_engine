@@ -26,6 +26,7 @@ XDisplay::XDisplay() {
 	this->screen = XDefaultScreen(this->display);
 	this->root_window = RootWindow(this->display, this->screen);
 	this->cmap = DefaultColormap(this->display, this->screen);
+	this->wmDeleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
 }
 
 // 
@@ -57,6 +58,13 @@ int XDisplay::getScreen() {
 //
 Window XDisplay::getRootWindow() {
 	return XDisplay::get()->root_window;
+}
+
+// 
+// getWMDeleteMessage() : Atom*
+//
+Atom XDisplay::getWMDeleteMessage() {
+	return XDisplay::get()->wmDeleteMessage;
 }
 
 // 
@@ -111,5 +119,5 @@ XDisplay::~XDisplay() {
 	}
 	XFreeColors(this->display, this->cmap, pixels, colors.size(), (unsigned long)0);
 	XFreeColormap(this->display, this->cmap);
-	//XCloseDisplay(this->display);
+	XCloseDisplay(this->display);
 }

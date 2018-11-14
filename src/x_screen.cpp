@@ -34,7 +34,9 @@ XScreen::XScreen(const char* name, const char* title,
 			BlackPixel(display, screen));
 	XSetStandardProperties(display, this->mainWindow,
 			name, title, None, 0, 0, nullptr);
-	XSelectInput(display, this->mainWindow, NoEventMask);
+	XSelectInput(display, this->mainWindow, ExposureMask);
+	auto wmDelete = XDisplay::getWMDeleteMessage();
+	XSetWMProtocols(display, this->mainWindow, &wmDelete, 1);
 
 	XClearWindow(display, this->mainWindow);
 	XRaiseWindow(display, this->mainWindow);

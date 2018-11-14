@@ -31,9 +31,20 @@ class Game {
 
 		void mainLoop();
 
-		virtual void update() { }
 
-		virtual void render() { };
+		/**
+		 * @brief	Temporarily implemented but will be pure virtual, where all of the game logic is updated
+		 * TODO 	Remove implementation
+		 * @param	double		Proportion of the targetTime that was filled
+		 */
+		virtual void update(double percentTimeElapsed);
+
+		/**
+		 * @brief	Temporarilly implemented but will be pure virtual, where the actors / sprites are actually displayed.
+		 * TODO		Remove Implementation
+		 * @param	Window		Window to draw on
+		 */
+		virtual void render(Window window);
 
 		/**
 		 * 	@brief	Destructor
@@ -62,7 +73,16 @@ class Game {
 
 	private:
 		/// Target FPS for the game loop
-		const static int TARGET_FPS = 30;
+		const static int TARGET_FPS = 60;
+
+		Sprite* frameRateSprite;
+		Sprite* s, *s3;
+		int lastFPS;
+
+		/**
+		 * @brief	Hidden main event loop, designed to run on the xScreen that is current, and populate a queue of events
+		 */
+		void internalProcessEvents();
 };
 
 #endif
