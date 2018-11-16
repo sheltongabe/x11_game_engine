@@ -11,6 +11,8 @@
 #include <thread>
 
 #include "game.h"
+#include "image_sprite.h"
+#include "font_sprite.h"
 
 //
 // Initializing constructor
@@ -22,13 +24,14 @@ Game::Game(const char* name, const char* title, int width, int height) :
 		height(height),
 		isRunning(true),
 		isPaused(false),
-		s(new Sprite(XDisplay::getDisplay(), 30, 30)),
-		frameRateSprite(new Sprite(XDisplay::getDisplay(), 100, 20)),
-		lastFPS(0),
-		s3(new Sprite(XDisplay::getDisplay(), 50, 50)) {
+		s(new BaseSprite(XDisplay::getDisplay(), 30, 30)),
+		frameRateSprite(new FontSprite(XDisplay::getDisplay(), 100, 20)),
+		lastFPS(0){
 	// Initialize the X11 server
 	XDisplay::get();
 	this->xScreen = new XScreen(name, title, width, height);
+	
+	// s3 = new ImageSprite("test.xbm", XDisplay::getDisplay(), this->xScreen->getWindow());
 
 	// Begin the main loop
 	this->mainLoop();
@@ -77,7 +80,8 @@ void Game::mainLoop() {
 // update (double)
 //
 void Game::update(double percentTimeElapsed) {
-
+	((FontSprite*)this->frameRateSprite)->setText(
+			std::string("FPS: ") + std::to_string(this->lastFPS));
 }
 
 // 
@@ -88,9 +92,7 @@ void Game::render(Window window) {
 	this->s->drawLine(0, 0, 30, 30);
 	this->s->draw(0, 0, window);
 
-	this->s3->setColor("black");
-	this->s3->fillRectangle(0, 0, 50, 50);
-	this->s3->draw(400, 300, window);
+	// this->s3->draw(400, 300, window);
 
 	this->frameRateSprite->clear();
 	this->frameRateSprite->setColor("black");
@@ -131,16 +133,7 @@ void Game::internalProcessEvents() {
 Game::~Game() {
 	delete this->xScreen;
 	delete this->s;
-	delete this->s3;
+	// delete this->s3;
 	delete this->frameRateSprite;
 	delete XDisplay::get();
 }
-
-/*
-From Game Loop
-
-
-
-		//Sprite s2(display, this->mainWindow, "test.xbm");
-		//s2.draw(0, 0, this->mainWindow);
-*/

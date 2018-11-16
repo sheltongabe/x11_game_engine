@@ -22,7 +22,11 @@ file(COPY ${LIB_HEADERS} DESTINATION ${DIRECTORY_NAME})
 set(LIBRARY_SOURCE_FILES
 	"x_display.cpp"
 	"x_screen.cpp"
+	"vector_2d.cpp"
 	"sprite.cpp"
+	"base_sprite.cpp"
+	"font_sprite.cpp"
+	"image_sprite.cpp"
 	"game.cpp"
 )
 

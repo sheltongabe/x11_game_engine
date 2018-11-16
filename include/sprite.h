@@ -19,20 +19,15 @@
  * @class		Sprite
  * @brief		Implement how a sprite stores an internal image and works with it
  * 
+ * TODO: Isolate X11 references from this Sprite class
+ * 
  * - Stores an internal Pixmap which on request it will draw to the specified window
  * - Provides a series of utility functions for drawing onto a pixmap
  * 
  */
 class Sprite {
 	public:
-		Sprite() = delete;
-
-		/**
-		 * @brief	Initialize the internal Pixmap with a particuar width and height
-		 * 
-		 * @version	0.1
-		 */
-		Sprite(Display* display, unsigned int width, unsigned int height);
+		Sprite();
 
 		/**
 		 * @brief	Initialize the internal Pixmap with a file
@@ -42,14 +37,8 @@ class Sprite {
 		Sprite(Display* display, Window w, const char* filename);
 		Sprite(Display* display, Window w, std::string filename);
 
-		/**
-		 * 	@brief	Copy Constructor
-		 * 
-		 * 	Details
-		 * 
-		 * 	@version	0.0
-		 */
-		Sprite(Sprite& copy);
+		Sprite(Sprite& copy) = delete;
+		Sprite(Sprite&& move) = delete;
 
 		// ------------------------------------------------
 		// Drawing Utility functions onto the sprite
@@ -60,7 +49,7 @@ class Sprite {
 		 * @param	int 	x
 		 * @param	int 	y
 		 */
-		void drawPoint(int x, int y);
+		virtual void drawPoint(int x, int y) = 0;
 
 		/**
 		 * @brief	Draw a line from point 1 to point 2, using foreground settings on the gc
@@ -70,7 +59,7 @@ class Sprite {
 		 * @param	int		x2
 		 * @param	int		y2
 		 */
-		void drawLine(int x1, int y1, int x2, int y2);
+		virtual void drawLine(int x1, int y1, int x2, int y2) = 0;
 
 		/**
 		 * @brief	Draw a rectangle using the foreground settings
@@ -80,7 +69,7 @@ class Sprite {
 		 * @param	int		width
 		 * @param	int		heigh
 		 */
-		void drawRectangle(int x, int y, int width, int height);
+		virtual void drawRectangle(int x, int y, int width, int height) = 0;
 
 		/**
 		 * @brief	Draw and fill a rectangle using the foreground settings
@@ -90,7 +79,7 @@ class Sprite {
 		 * @param	int		width
 		 * @param	int		heigh
 		 */
-		void fillRectangle(int x, int y, int width, int height);
+		virtual void fillRectangle(int x, int y, int width, int height) = 0;
 
 		/**
 		 * @brief	Draw a string to the screen
@@ -99,7 +88,7 @@ class Sprite {
 		 * @param	int 			y
 		 * @param	const char*		String to draw
 		 */
-		void drawString(int x, int y, const char* message);
+		virtual void drawString(int x, int y, const char* message) = 0;
 
 		/**
 		 * @brief	Draw a string to the screen
@@ -108,19 +97,19 @@ class Sprite {
 		 * @param	int 			y
 		 * @param	std::string&	String to draw
 		 */
-		void drawString(int x, int y, const std::string& message);
+		virtual void drawString(int x, int y, const std::string& message) = 0;
 
 		/**
 		 * @brief	Clear the sprite
 		 */
-		void clear();
+		virtual void clear() = 0;
 
 		/**
 		 * @brief	Set the color of the foreground
 		 * 
 		 * @param	const char*		color name
 		 */
-		void setColor(const char* color_name);
+		virtual void setColor(const char* color_name) = 0;
 
 		/**
 		 * @brief	Draw the sprite onto the passed window, at the specified location
@@ -129,7 +118,7 @@ class Sprite {
 		 * @param	int 	y
 		 * @param	Window	destination
 		 */
-		void draw(int x, int y, Window destination);
+		virtual void draw(int x, int y, Window destination) = 0;
 
 		/**
 		 * 	@brief	Destructor
@@ -138,22 +127,7 @@ class Sprite {
 		 * 
 		 * 	@version	0.0
 		 */
-		~Sprite();
-
-	protected:
-		/// Connection to X11 Server
-		Display* xDisplay;
-
-		/// Image for this particular sprite
-		Pixmap image;
-
-		/// gc to draw on this particular Sprite
-		GC graphicsContext;
-		Font font;
-
-		// Dimensions of the sprite
-		unsigned int width, height;
-
+		virtual ~Sprite();
 };
 
 #endif
