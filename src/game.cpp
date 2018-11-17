@@ -9,6 +9,7 @@
 
 #include <chrono>
 #include <thread>
+#include <stdexcept>
 
 #include "game.h"
 #include "image_sprite.h"
@@ -23,20 +24,105 @@ Game::Game(const char* name, const char* title, int width, int height) :
 		width(width),
 		height(height),
 		isRunning(true),
-		isPaused(false),
-		s(new BaseSprite(XDisplay::getDisplay(), 30, 30)),
-		frameRateSprite(new FontSprite(XDisplay::getDisplay(), 100, 20)),
-		lastFPS(0){
+		lastFPS(0),
+		currentScene(nullptr),
+		scenes(std::unordered_map<std::string, Scene*>()) {
 	// Initialize the X11 server
 	XDisplay::get();
 	this->xScreen = new XScreen(name, title, width, height);
 	
 	// s3 = new ImageSprite("test.xbm", XDisplay::getDisplay(), this->xScreen->getWindow());
+	
+	// Call Load
+	this->load();
 
 	// Begin the main loop
 	this->mainLoop();
 }
-#include <iostream>
+
+// 
+// load ()
+//
+void Game::load() {
+	// Get the start scene, and set it to current
+	this->addScene("start", this->getStartScene());
+	this->currentScene = this->getScene("start");
+}
+
+//
+// update (double)
+//
+void Game::update(double percentTimeElapsed) {
+	this->currentScene->update(percentTimeElapsed);
+}
+
+// 
+// render (Window)
+//
+void Game::render() {
+	this->currentScene->render();
+
+	this->frameRateSprite->clear();
+	this->frameRateSprite->setColor("black");
+	this->frameRateSprite->drawString(0, 10, std::string("FPS: ") + std::to_string(this->lastFPS));
+	this->frameRateSprite->draw(700, 10, window);
+}
+
+// 
+// sceneExists (std::string name) -> bool
+//
+bool Game::sceneExists(std::string name) {
+	// check to make sure the scene index does not contain that name already
+	auto sceneIndex = this->scenes;
+	return sceneIndex.find(name) != sceneIndex.end();
+}
+
+// 
+// addScene(std::string, Scene*)
+//
+void Game::addScene(std::string name, Scene* scene) {
+	// if it the scene exists, delete that scene and then add ours
+	if(this->sceneExists(name))
+		delete this->scenes[name];
+	
+	// Add the newScene to the map of scenes
+	this->scenes[name] = scene;
+}
+
+// 
+// getScene (std::string) -> Scene*
+//
+Scene* Game::getScene(std::string name) {
+	// If the Scene exists return it, otherwise throw an exception
+	if(this->sceneExists(name))
+		return this->scenes[name];
+	else
+		throw std::runtime_error(std::string("A Scene does not exist with the name of: ") + name);
+}
+
+// 
+// removeScene (std::string)
+//
+void Game::removeScene(std::string name) {
+	// If the Scene exists in the index delete and remove it, otherwise throw an exception
+	if(this->sceneExists(name)) {
+		// Grab, delete, and erase the scene
+		auto scene = this->scenes.find(name);
+		delete (scene->second);
+		this->scenes.erase(scene);
+	}
+	else {
+		throw std::runtime_error(std::string("A Scene does not exist with the name of: ") + name);
+	}
+}
+
+// 
+// endGame()
+//
+void Game::endGame() {
+	this->isRunning = false;
+}
+
 // 
 // mainLoop ()
 //
@@ -59,12 +145,13 @@ void Game::mainLoop() {
 		//this->xScreen->flushEvents();
 		this->internalProcessEvents();
 		
+		// Calculate the elapsed time, call update and render, and then sleep for the remaining time
 		std::chrono::duration<double, std::nano> elapsed = endTime - initialTime;
 		this->update(elapsed.count() / targetTime.count());
-		this->render(this->xScreen->getWindow());
-		
+		this->render();
 		std::this_thread::sleep_for(targetTime - elapsed);
 
+		// Frame rate calculations
 		timeSinceLastFrameLog += (currentTimeInNano() - initialTime).count();
 		++frameCounter;
 		if(timeSinceLastFrameLog > oneSecondInNano) {
@@ -74,30 +161,6 @@ void Game::mainLoop() {
 		}
 		initialTime = currentTimeInNano();
 	}
-}
-
-//
-// update (double)
-//
-void Game::update(double percentTimeElapsed) {
-	((FontSprite*)this->frameRateSprite)->setText(
-			std::string("FPS: ") + std::to_string(this->lastFPS));
-}
-
-// 
-// render (Window)
-//
-void Game::render(Window window) {
-	this->s->setColor("black");
-	this->s->drawLine(0, 0, 30, 30);
-	this->s->draw(0, 0, window);
-
-	// this->s3->draw(400, 300, window);
-
-	this->frameRateSprite->clear();
-	this->frameRateSprite->setColor("black");
-	this->frameRateSprite->drawString(0, 10, std::string("FPS: ") + std::to_string(this->lastFPS));
-	this->frameRateSprite->draw(700, 10, window);
 }
 
 // 
@@ -116,12 +179,12 @@ void Game::internalProcessEvents() {
 		// Take a particular action
 		switch(e.type) {
 			case Expose:
-
+				this->currentScene->render();
 				break;
 			
 			case ClientMessage:
 				if(e.xclient.data.l[0] == XDisplay::getWMDeleteMessage())
-					this->isRunning = false;
+					this->endGame();
 				break;
 		}
 	}
@@ -132,8 +195,5 @@ void Game::internalProcessEvents() {
 //
 Game::~Game() {
 	delete this->xScreen;
-	delete this->s;
-	// delete this->s3;
-	delete this->frameRateSprite;
 	delete XDisplay::get();
 }

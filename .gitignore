@@ -11,3 +11,6 @@ lib/
 
 # Ignore Umlet format uml diagrams
 *.uxf
+
+# Ignore Doxygen output
+docs/html/

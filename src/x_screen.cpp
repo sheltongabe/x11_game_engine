@@ -39,21 +39,20 @@ XScreen::XScreen(const char* name, const char* title,
 	XSetWMProtocols(display, this->mainWindow, &wmDelete, 1);
 
 	XClearWindow(display, this->mainWindow);
-	XRaiseWindow(display, this->mainWindow);
-	XMapWindow(display, this->mainWindow);
 }
 
 //
-// Flush Events
+// show ()
 //
-void XScreen::flushEvents() {
-	auto display = XDisplay::getDisplay();
+void XScreen::show() {
+	XMapWindow(XDisplay::getDisplay(), this->mainWindow);
+}
 
-	// Clear all the pending events
-	while(XPending(display) > 0) {
-		XEvent e;
-		XNextEvent(display, &e);
-	}
+// 
+// hide ()
+//
+void XScreen::hide() {
+	XUnmapWindow(XDisplay::getDisplay(), this->mainWindow);
 }
 
 //

@@ -32,6 +32,11 @@ class Vector2D {
 
 		// ----- Operators -----
 		/**
+		 * @brief	implement the = operator
+		 */
+		Vector2D& operator=(const Vector2D& rhs);
+
+		/**
 		 * @brief	Add by components between this vector and the rhs
 		 * @param	2DVector&	rhs
 		 * @return	Vector2D&	this resulting vector

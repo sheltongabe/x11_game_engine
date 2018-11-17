@@ -41,6 +41,15 @@ Vector2D::Vector2D(Vector2D&& move) :
 }
 
 // 
+// operator= (const Vector2D& rhs) -> Vector2D&
+//
+Vector2D& Vector2D::operator=(const Vector2D& rhs) {
+	// Skip self assignment check
+	this->x = rhs.x;
+	this->y = rhs.y;
+}
+
+// 
 // operator+=
 //
 Vector2D& Vector2D::operator+=(const Vector2D& rhs) {

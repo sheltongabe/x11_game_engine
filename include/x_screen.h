@@ -34,17 +34,11 @@ class XScreen {
 		XScreen(XScreen& copy) = delete;
 		XScreen(XScreen&& screen) = delete;
 
-		/**
-		 * @brief	Remove pending events from the queue
-		 * 
-		 * @version	0.1
-		 */
-		void flushEvents();
+		/// Show the Window (map it) for this screen
+		void show();
 
-		/**
-		 * @brief	Return the primary window
-		 */
-		Window getWindow() { return this->mainWindow; }
+		/// Hide the window (unmap it) for this screen
+		void hide();
 
 		/**
 		 * 	@brief	Destructor
