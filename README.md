@@ -4,8 +4,12 @@ Wrap X11 C level calls, to look like a normal 2d game engine, with C++14.
 
 ## Status V0.1
 
-It is not currently at a compiling / running state, apologies for it being in master.
-I am still heavily in a refactoring stage.
+* [x] Compile and Run [loading an empty screen]  
+* [ ] Fixing Image Sprites
+* [ ] Adding a Sprite Registry
+* [ ] Adding additional basic Actor (LabelActor)
+
+I am now mostly out of the refactor stage
 
 ## Install, Compile, and Run
 
