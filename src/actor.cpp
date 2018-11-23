@@ -27,6 +27,20 @@ void Actor::load() {
 
 }
 
+// 
+// setVisible (bool)
+//
+void Actor::setVisible(bool visible) {
+	this->visible = visible;
+}
+
+// 
+// isVisible ()
+//
+bool Actor::isVisible() {
+	return this->visible;
+}
+
 //
 // Destructor 
 //

@@ -59,6 +59,12 @@ class Actor {
 		 */
 		virtual void render(Window window) = 0;
 
+		/// Set if the Actor is visible or not
+		virtual void setVisible(bool visible);
+
+		/// Check if the Actor is visible or not
+		virtual bool isVisible();
+
 		// TODO: Implement Transformation code
 		/**
 		 * @brief	Apply the accumulated transformations to a clone of the original sprite if needed
@@ -107,6 +113,9 @@ class Actor {
 
 		/// Track whether or not the transformation variables have been changed
 		TransformationsChanged transformationsDirty;
+
+		/// Tracks whether the actor is visible or not, if it should be redendered or updated
+		bool visible;
 
 	private:
 

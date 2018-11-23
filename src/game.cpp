@@ -10,6 +10,7 @@
 #include <chrono>
 #include <thread>
 #include <stdexcept>
+#include <algorithm>
 
 #include "game.h"
 #include "image_sprite.h"
@@ -65,7 +66,7 @@ void Game::render() {
 	this->frameRateSprite->clear();
 	this->frameRateSprite->setColor("black");
 	this->frameRateSprite->drawString(0, 10, std::string("FPS: ") + std::to_string(this->lastFPS));
-	this->frameRateSprite->draw(700, 10, window);
+	this->frameRateSprite->draw(700, 10, this->currentScene->getWindow());
 }
 
 // 
@@ -114,6 +115,19 @@ void Game::removeScene(std::string name) {
 	else {
 		throw std::runtime_error(std::string("A Scene does not exist with the name of: ") + name);
 	}
+}
+
+// 
+// switchScene (std::string)
+//
+void Game::switchScene(std::string name) {
+	// Hide the current scene
+	if(this->currentScene != nullptr)
+		this->currentScene->hide();
+	
+	// switch and show the new scene
+	this->currentScene = this->getScene(name);
+	this->currentScene->show();
 }
 
 // 
@@ -194,6 +208,10 @@ void Game::internalProcessEvents() {
 // Destructor 
 //
 Game::~Game() {
+	// Delete the scenes in the scene index
+	std::for_each(this->scenes.begin(), this->scenes.end(), [](const Scene* scene) {
+		delete scene;
+	});
 	delete this->xScreen;
 	delete XDisplay::get();
 }

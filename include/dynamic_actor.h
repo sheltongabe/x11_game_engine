@@ -21,6 +21,7 @@ enum BoundsAction {
 	WRAP,
 	BOUNCE,
 	DIE,
+	STOP,
 };
 
 /**
@@ -52,9 +53,10 @@ class DynamicActor : public StaticActor{
 		 * 
 		 * Action is determined by a map of lambda expressions
 		 * 
-		 * @param	Scene*	scene
+		 * @param	uint	width of scene
+		 * @param	uint	height of scene
 		 */
-		virtual void checkBounds(Scene* scene);
+		virtual void checkBounds(unsigned int width, unsigned int height);
 
 		/**
 		 * @brief	Apply a force, adding to the acceleration vector
@@ -66,13 +68,13 @@ class DynamicActor : public StaticActor{
 		inline void applyForce(const Vector2D& force);
 
 		/// getVelocity
-		inline Vector2D getVelocity()const;
+		inline Vector2D getVelocity();
 
 		/// Set the velocity
 		inline void setVelocity(const Vector2D& velocity);
 
 		/// get Acceleration
-		inline Vector2D getAcceleration() const;
+		inline Vector2D getAcceleration();
 
 		/// set Acceleration
 		inline void setAcceleration(const Vector2D& acceleration);

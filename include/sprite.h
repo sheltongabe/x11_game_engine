@@ -29,14 +29,6 @@ class Sprite {
 	public:
 		Sprite();
 
-		/**
-		 * @brief	Initialize the internal Pixmap with a file
-		 * 
-		 * @version	0.1
-		 */
-		Sprite(Display* display, Window w, const char* filename);
-		Sprite(Display* display, Window w, std::string filename);
-
 		Sprite(Sprite& copy) = delete;
 		Sprite(Sprite&& move) = delete;
 
@@ -120,6 +112,13 @@ class Sprite {
 		 */
 		virtual void draw(int x, int y, Window destination) = 0;
 
+		// ----- Getters -----
+		/// Get the width of the image
+		virtual int getSpriteWidth() { return this->width; }
+
+		/// Get the height of the image
+		virtual int getSpriteHeight() { return this->height; }
+
 		/**
 		 * 	@brief	Destructor
 		 * 
@@ -128,6 +127,13 @@ class Sprite {
 		 * 	@version	0.0
 		 */
 		virtual ~Sprite();
+	
+	protected:
+		/// Width of the image
+		unsigned int width;
+
+		/// Height of the image
+		unsigned int height;
 };
 
 #endif

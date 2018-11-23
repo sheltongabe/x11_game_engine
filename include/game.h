@@ -69,6 +69,16 @@ class Game {
 		 */
 		void removeScene(std::string name);
 
+		/**
+		 * @brief	Switch the current scene
+		 * 
+		 * Hide the current scene, switch to the new Scene, and show it
+		 * 
+		 * @param	std::string			scene name
+		 * @throws 	std::runtime_error	scene by that name does not exist
+		 */
+		void switchScene(std::string name);
+
 		~Game();
 
 	protected:
@@ -88,7 +98,6 @@ class Game {
 		virtual Scene* getStartScene() = 0;
 
 		/// The screen to display on
-		XScreen* xScreen;
 		Scene* currentScene;
 
 		/// The map of scenes in memory
