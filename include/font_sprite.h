@@ -41,6 +41,13 @@ class FontSprite : public BaseSprite {
 		void setText(std::string text) { this->text = text; }
 
 		/**
+		 * @brief	Duplicate the properties of this Sprite and copy the image onto a new Pixmap
+		 * 
+		 * @return	Sprite* 	Clone of this sprite, caller is responsible for deletion
+		 */
+		virtual Sprite* clone();
+
+		/**
 		 * 	@brief	Destructor
 		 * 
 		 * 	Details

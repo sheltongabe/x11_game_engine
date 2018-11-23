@@ -93,10 +93,19 @@ void BaseSprite::setColor(const char* color_name) {
 // 
 // draw (int, int, Window)
 //
-void BaseSprite::draw(int x, int y, Window destination) {
+void BaseSprite::draw(int x, int y, Drawable destination) {
 	XCopyArea(XDisplay::getDisplay(), this->image,
 			destination, this->graphicsContext, 0, 0,
 			this->width, this->height, x, y);
+}
+
+// 
+// clone () -> Sprite*
+//
+Sprite* BaseSprite::clone() {
+	BaseSprite* clone = new BaseSprite(XDisplay::getDisplay(), this->width, this->height);
+	this->draw(0, 0, clone->image);
+	return clone;
 }
 
 //

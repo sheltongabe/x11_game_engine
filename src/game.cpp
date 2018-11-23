@@ -208,5 +208,6 @@ Game::~Game() {
 	std::for_each(this->scenes.begin(), this->scenes.end(), [](auto& it) {
 		delete it.second;
 	});
+	delete this->frameRateSprite;
 	delete XDisplay::get();
 }

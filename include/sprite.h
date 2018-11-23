@@ -110,7 +110,14 @@ class Sprite {
 		 * @param	int 	y
 		 * @param	Window	destination
 		 */
-		virtual void draw(int x, int y, Window destination) = 0;
+		virtual void draw(int x, int y, Drawable destination) = 0;
+
+		/**
+		 * @brief	Duplicate the properties of this Sprite and copy the image onto a new Pixmap
+		 * 
+		 * @return	Sprite* 	Clone of this sprite, caller is responsible for deletion
+		 */
+		virtual Sprite* clone() = 0;
 
 		// ----- Getters -----
 		/// Get the width of the image

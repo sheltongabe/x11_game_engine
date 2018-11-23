@@ -18,6 +18,16 @@ FontSprite::FontSprite(Display* display, unsigned int width, unsigned int height
 	XSetFont(display, this->graphicsContext, this->font);
 }
 
+// 
+// clone () -> Sprite*
+//
+Sprite* FontSprite::clone() {
+	FontSprite* clone = new FontSprite(XDisplay::getDisplay(), this->width, this->height);
+	this->draw(0, 0, clone->image);
+	clone->text = this->text;
+	return clone;
+}
+
 //
 // Destructor 
 //
