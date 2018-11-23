@@ -115,19 +115,8 @@ class BaseSprite : public Sprite {
 		 */
 		virtual void draw(int x, int y, Window destination);
 
-		// ----- Getters -----
-		/// Get the width of the image
-		virtual int getSpriteWidth() { return this->width; }
-
-		/// Get the height of the image
-		virtual int getSpriteHeight() { return this->height; }
-
 		/**
 		 * 	@brief	Destructor
-		 * 
-		 * 	Details
-		 * 
-		 * 	@version	0.0
 		 */
 		virtual ~BaseSprite();
 
@@ -137,12 +126,6 @@ class BaseSprite : public Sprite {
 
 		/// Graphics settings for drawing with the image
 		GC graphicsContext;
-
-		/// Width of the image
-		unsigned int width;
-
-		/// Height of the image
-		unsigned int height;
 
 	private:
 

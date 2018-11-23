@@ -55,6 +55,13 @@ void XScreen::hide() {
 	XUnmapWindow(XDisplay::getDisplay(), this->mainWindow);
 }
 
+// 
+// getWindow () -> Window
+//
+Window XScreen::getWindow() {
+	return this->mainWindow;
+}
+
 //
 // Destructor 
 //

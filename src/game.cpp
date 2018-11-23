@@ -10,6 +10,7 @@
 #include <chrono>
 #include <thread>
 #include <stdexcept>
+#include <algorithm>
 
 #include "game.h"
 #include "image_sprite.h"
@@ -29,15 +30,6 @@ Game::Game(const char* name, const char* title, int width, int height) :
 		scenes(std::unordered_map<std::string, Scene*>()) {
 	// Initialize the X11 server
 	XDisplay::get();
-	this->xScreen = new XScreen(name, title, width, height);
-	
-	// s3 = new ImageSprite("test.xbm", XDisplay::getDisplay(), this->xScreen->getWindow());
-	
-	// Call Load
-	this->load();
-
-	// Begin the main loop
-	this->mainLoop();
 }
 
 // 
@@ -45,8 +37,13 @@ Game::Game(const char* name, const char* title, int width, int height) :
 //
 void Game::load() {
 	// Get the start scene, and set it to current
-	this->addScene("start", this->getStartScene());
+	this->addScene("start", getStartScene());
 	this->currentScene = this->getScene("start");
+	this->currentScene->show();
+
+	// Build Frame rate sprite
+	this->frameRateSprite = new FontSprite(XDisplay::getDisplay(),
+			this->width, this->height);
 }
 
 //
@@ -65,7 +62,7 @@ void Game::render() {
 	this->frameRateSprite->clear();
 	this->frameRateSprite->setColor("black");
 	this->frameRateSprite->drawString(0, 10, std::string("FPS: ") + std::to_string(this->lastFPS));
-	this->frameRateSprite->draw(700, 10, window);
+	this->frameRateSprite->draw(700, 10, this->currentScene->getWindow());
 }
 
 // 
@@ -114,6 +111,19 @@ void Game::removeScene(std::string name) {
 	else {
 		throw std::runtime_error(std::string("A Scene does not exist with the name of: ") + name);
 	}
+}
+
+// 
+// switchScene (std::string)
+//
+void Game::switchScene(std::string name) {
+	// Hide the current scene
+	if(this->currentScene != nullptr)
+		this->currentScene->hide();
+	
+	// switch and show the new scene
+	this->currentScene = this->getScene(name);
+	this->currentScene->show();
 }
 
 // 
@@ -194,6 +204,9 @@ void Game::internalProcessEvents() {
 // Destructor 
 //
 Game::~Game() {
-	delete this->xScreen;
+	// Delete the scenes in the scene index
+	std::for_each(this->scenes.begin(), this->scenes.end(), [](auto& it) {
+		delete it.second;
+	});
 	delete XDisplay::get();
 }

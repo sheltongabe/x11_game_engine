@@ -40,6 +40,9 @@ class XScreen {
 		/// Hide the window (unmap it) for this screen
 		void hide();
 
+		/// Get the current window
+		Window getWindow();
+
 		/**
 		 * 	@brief	Destructor
 		 * 	@version	0.1

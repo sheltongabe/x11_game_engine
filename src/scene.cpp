@@ -36,8 +36,8 @@ void Scene::load() {
 void Scene::update(double percentElapsedTime) {
 	if(!this->isScenePaused) {
 		// call update on each actor
-		std::for_each(this->actors.begin(), this->actors.end(), [] (auto& it) {
-			it->second->update(percentElapsedTime);
+		std::for_each(this->actors.begin(), this->actors.end(), [&] (auto& it) {
+			it.second->update(percentElapsedTime);
 		});
 
 		// TODO: Possible process collisions
@@ -50,7 +50,7 @@ void Scene::update(double percentElapsedTime) {
 void Scene::render() {
 	// Call render on each actor
 	std::for_each(this->actors.begin(), this->actors.end(), [&] (auto& it) {
-		it->second->render(this->mainWindow);
+		it.second->render(this->mainWindow);
 	});
 }
 
