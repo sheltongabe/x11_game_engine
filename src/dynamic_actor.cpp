@@ -15,7 +15,8 @@
 DynamicActor::DynamicActor() :
 		StaticActor(),
 		velocity(Vector2D(0, 0)),
-		acceleration(Vector2D(0, 0)) {
+		acceleration(Vector2D(0, 0)),
+		actionAtBounds(DIE) {
 
 }
 
@@ -23,6 +24,10 @@ DynamicActor::DynamicActor() :
 // update (double)
 //
 void DynamicActor::update(double percentTimeElapsed) {
+	if(!this->isVisible())
+		return;
+
+	// Update position
 	this->velocity += this->acceleration * percentTimeElapsed;
 	this->position += this->velocity * percentTimeElapsed;
 }
@@ -34,30 +39,42 @@ void DynamicActor::checkBounds(unsigned int width, unsigned int height) {
 	auto x = this->position.getX();
 	auto y = this->position.getY(); 
 
-	// If the Actor is still in the scene return [fastpath?]
-	if(x > 0 && x < width &&
-			y > 0 && y < height)
-		return;
-	
 	// Otherwise perform your bounds action
 	switch(this->actionAtBounds) {
 		case WRAP:
-			if(x < 0) this->position.setX(width);
-			if(x > width) this->position.setX(0);
-			if(y < 0) this->position.setY(height);
-			if(y > height) this->position.setY(0);
+			if(x - this->transformedSprite->getSpriteWidth() < 0) 
+				this->position.setX(width);
+			if(x > width) 
+				this->position.setX(0);
+			if(y - this->transformedSprite->getSpriteHeight() < 0) 
+				this->position.setY(height);
+			if(y > height) 
+				this->position.setY(0);
 			break;
 		
 		case BOUNCE:
-			if(x < 0 || x > width) this->velocity.setX(this->velocity.getX() * -1);
-			if(y < 0 || y > height) this->velocity.setY(this->velocity.getY() * -1);
+			if(x < 0 || x + this->transformedSprite->getSpriteWidth() > width)
+				this->velocity.setX(this->velocity.getX() * -1);
+			if(y < 0 || y + this->transformedSprite->getSpriteHeight() > height) 
+				this->velocity.setY(this->velocity.getY() * -1);
 			break;
 		
 		case DIE:
-			this->setVisible(false);
+			if(x < 0 || x + this->transformedSprite->getSpriteWidth() > width ||
+					y < 0 || y + this->transformedSprite->getSpriteHeight() > height) 
+				this->setVisible(false);
 			break;
 		
 		case STOP:
+			int newX, newY;
+			if(x < 0) 
+				newX = 0;
+			if(x + > width) 
+				this->position.setX(0);
+			if(y - this->transformedSprite->getSpriteHeight() < 0) 
+				this->position.setY(height);
+			if(y > height) 
+				this->position.setY(0);
 			this->velocity = Vector2D(0, 0);
 			break;
 	}
@@ -109,5 +126,5 @@ void DynamicActor::setBoundsAction(const BoundsAction& action) {
 // Destructor 
 //
 DynamicActor::~DynamicActor() {
-
+	StaticActor::~StaticActor();
 }

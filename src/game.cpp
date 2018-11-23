@@ -157,7 +157,7 @@ void Game::mainLoop() {
 		
 		// Calculate the elapsed time, call update and render, and then sleep for the remaining time
 		std::chrono::duration<double, std::nano> elapsed = endTime - initialTime;
-		this->update(elapsed.count() / targetTime.count());
+		this->update(elapsed.count() / targetTime.count() * Game::PERCENT_SCALE);
 		this->render();
 		std::this_thread::sleep_for(targetTime - elapsed);
 

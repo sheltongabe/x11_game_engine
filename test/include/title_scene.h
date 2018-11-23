@@ -29,12 +29,17 @@ class TitleScene : public Scene {
 		TitleScene(TitleScene&& move) = delete;
 
 		/**
+		 * @brief	Add DynamicActor containing an image
+		 */
+		virtual void load();
+
+		/**
 		 * 	@brief	Destructor
 		 */
 		~TitleScene();
 
 	private:
-
+		Sprite* image;
 };
 
 #endif

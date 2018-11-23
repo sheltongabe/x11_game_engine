@@ -9,9 +9,6 @@
  *  @version	0.0
  */
 
-#include <string.h>
-#include <stdexcept>
-
 #include "sprite.h"
 
 // 

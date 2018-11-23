@@ -21,33 +21,31 @@ class ImageSprite : public BaseSprite {
 		/**
 		 * Load the image and initialize the properties of BaseSprite
 		 * 
-		 * @param	const char*		filename
+		 * @param	char**			image data
 		 * @param	Display*		display
 		 * @param	Window			A window to get the screen / display associated
 		 * @throw	runtime_error	file not able to be loaded
 		 */
-		ImageSprite(const char* filename, Display* display, Window window);
+		ImageSprite(const char** imageData, Display* display, Window window);
 
-		/**
-		 * Load the image and initialize the properties of BaseSprite
-		 * 
-		 * @param	std::string		filename
-		 * @param	Display*		display
-		 * @param	Window			A window to get the screen / display associated
-		 * @throw	runtime_error	file not able to be loaded
-		 */
-		ImageSprite(std::string filename, Display* display, Window window);
 		ImageSprite() = delete;
 		ImageSprite(ImageSprite& copy) = delete;
 		ImageSprite(ImageSprite&& move) = delete;
 
 		/// Overload for drawing images
-		virtual void draw(int x, int y, Window destination);
+		virtual void draw(int x, int y, Drawable destination);
+
+		/**
+		 * @brief	Duplicate the properties of this Sprite and copy the image onto a new Pixmap
+		 * 
+		 * @return	Sprite* 	Clone of this sprite, caller is responsible for deletion
+		 */
+		virtual Sprite* clone();
 
 		virtual ~ImageSprite();
 
 	protected:
-
+		const char** imageData;
 
 	private:
 

@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 2.8)
 set(CMAKE_BINARY_OUTPUT ${CMAKE_SOURCE_DIR}/build/)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib/)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/)
-set(CMAKE_CXX_FLAGS "${CXX_FLAGS} -ggdb -std=c++14 -lX11")
+set(CMAKE_CXX_FLAGS "${CXX_FLAGS} -ggdb -std=c++14 -lX11 -lXpm")
 
 # ----------------------------------------------------------
 

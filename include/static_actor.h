@@ -44,7 +44,7 @@ class StaticActor : public Actor {
 		/**
 		 * @brief	Destructor
 		 */
-		~StaticActor();
+		virtual ~StaticActor();
 
 	protected:
 		/// The position of the Actor
