@@ -14,9 +14,9 @@
 // Initializing Constructor
 //
 BaseSprite::BaseSprite(Display* display, unsigned int width, unsigned int height) :
-		Sprite::Sprite(),
-		width(width),
-		height(height) {
+		Sprite::Sprite() {
+	this->width = width;
+	this->height = height;
 	// Build the image
 	auto screen = XDisplay::getScreen();
 	this->image = XCreatePixmap(display, XDisplay::getRootWindow(), 

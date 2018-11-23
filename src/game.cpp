@@ -30,15 +30,6 @@ Game::Game(const char* name, const char* title, int width, int height) :
 		scenes(std::unordered_map<std::string, Scene*>()) {
 	// Initialize the X11 server
 	XDisplay::get();
-	this->xScreen = new XScreen(name, title, width, height);
-	
-	// s3 = new ImageSprite("test.xbm", XDisplay::getDisplay(), this->xScreen->getWindow());
-	
-	// Call Load
-	this->load();
-
-	// Begin the main loop
-	this->mainLoop();
 }
 
 // 
@@ -46,8 +37,13 @@ Game::Game(const char* name, const char* title, int width, int height) :
 //
 void Game::load() {
 	// Get the start scene, and set it to current
-	this->addScene("start", this->getStartScene());
+	this->addScene("start", getStartScene());
 	this->currentScene = this->getScene("start");
+	this->currentScene->show();
+
+	// Build Frame rate sprite
+	this->frameRateSprite = new FontSprite(XDisplay::getDisplay(),
+			this->width, this->height);
 }
 
 //
@@ -209,9 +205,8 @@ void Game::internalProcessEvents() {
 //
 Game::~Game() {
 	// Delete the scenes in the scene index
-	std::for_each(this->scenes.begin(), this->scenes.end(), [](const Scene* scene) {
-		delete scene;
+	std::for_each(this->scenes.begin(), this->scenes.end(), [](auto& it) {
+		delete it.second;
 	});
-	delete this->xScreen;
 	delete XDisplay::get();
 }

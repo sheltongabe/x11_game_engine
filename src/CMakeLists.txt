@@ -27,6 +27,10 @@ set(LIBRARY_SOURCE_FILES
 	"base_sprite.cpp"
 	"font_sprite.cpp"
 	"image_sprite.cpp"
+	"actor.cpp"
+	"static_actor.cpp"
+	"dynamic_actor.cpp"
+	"scene.cpp"
 	"game.cpp"
 )
 

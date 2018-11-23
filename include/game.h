@@ -13,9 +13,11 @@
 #include <unordered_map>
 #include <queue>
 
-#include "scene.h"
 #include "x_display.h"
-#include "sprite.h"
+#include "font_sprite.h"
+
+// Forward declare Scene
+class Scene;
 
 /**
  * 	@class		Game
@@ -36,6 +38,14 @@ class Game {
 		Game() = delete;
 		Game(Game& copy) = delete;
 		Game(Game&& move) = delete;
+
+		/**
+		 * @brief	Handle the main game loop
+		 * 
+		 * Call update(), and render()
+		 * handle pausing, and frame rate.
+		 */
+		void mainLoop();
 
 		/// End the game (sets running to false, so the next iteration of the game loop will end)
 		void endGame();
@@ -120,8 +130,7 @@ class Game {
 		const static int TARGET_FPS = 60;
 
 		// Test Sprites
-		Sprite* frameRateSprite;
-		Sprite* s, *s3;
+		FontSprite* frameRateSprite;
 		int lastFPS;
 
 		/**
@@ -131,14 +140,6 @@ class Game {
 		 * @return	boolean			if the scene index contains a scene by that name
 		 */
 		bool sceneExists(std::string);
-
-		/**
-		 * @brief	Handle the main game loop
-		 * 
-		 * Call update(), and render()
-		 * handle pausing, and frame rate.
-		 */
-		void mainLoop();
 
 		/**
 		 * @brief	Calls update(percentTimeElapsed) on the currentScene
@@ -159,5 +160,7 @@ class Game {
 		 */
 		void internalProcessEvents();
 };
+
+#include "scene.h"
 
 #endif

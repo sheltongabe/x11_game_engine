@@ -1,10 +1,11 @@
 #include <thread>
 #include <chrono>
-#include "x11_game_engine/game.h"
+#include "pong.h"
 
 int main() {
 	
-	Game game("Main name", "Main title", 800, 600);
+	Pong game("Pong", "Pong", 800, 600);
+	game.mainLoop();
 
 	return 0;
 }

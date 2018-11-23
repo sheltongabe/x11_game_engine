@@ -14,7 +14,9 @@ project(EXE_NAME)
 include_directories(${PROJECT_SOURCE_DIR}/../include ${PROJECT_SOURCE_DIR}/../../include)
 
 add_executable(${EXE_NAME}
-	main.cpp
+	"main.cpp"
+	"pong.cpp"
+	"title_scene.cpp"
 )
 target_link_libraries(${EXE_NAME} ${LIBRARY_NAME}_static)
 
