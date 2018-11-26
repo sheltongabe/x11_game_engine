@@ -130,7 +130,7 @@ class Game {
 		const static int TARGET_FPS = 60;
 
 		/// Scalar for percentTimeElapsed
-		const static int PERCENT_SCALE = 100;
+		const static int PERCENT_SCALE = 1000;
 
 		// Test Sprites
 		FontSprite* frameRateSprite;
