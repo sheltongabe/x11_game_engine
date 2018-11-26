@@ -65,27 +65,27 @@ class DynamicActor : public StaticActor{
 		 * 
 		 * @param	Vector2D&	force
 		 */
-		inline void applyForce(const Vector2D& force);
+		void applyForce(const Vector2D& force);
 
 		/// getVelocity
-		inline Vector2D getVelocity();
+		Vector2D getVelocity();
 
 		/// Set the velocity
-		inline void setVelocity(const Vector2D& velocity);
+		void setVelocity(const Vector2D& velocity);
 
 		/// get Acceleration
-		inline Vector2D getAcceleration();
+		Vector2D getAcceleration();
 
 		/// set Acceleration
-		inline void setAcceleration(const Vector2D& acceleration);
+		void setAcceleration(const Vector2D& acceleration);
 
 		/// Set Bounds Action
-		inline void setBoundsAction(const BoundsAction& action);
+		void setBoundsAction(const BoundsAction& action);
 
 		/**
 		 * 	@brief	Destructor
 		 */
-		~DynamicActor();
+		virtual ~DynamicActor();
 
 	protected:
 		/// Vector for velocity

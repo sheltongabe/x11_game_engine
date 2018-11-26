@@ -57,7 +57,7 @@ class Actor {
 		 * @brief	Draws the transformed sprite at its location, implemented by children
 		 * @param	Window		window to draw the sprite to
 		 */
-		virtual void render(Window window) = 0;
+		virtual void render(const Drawable& window) = 0;
 
 		/// Set if the Actor is visible or not
 		virtual void setVisible(bool visible);
@@ -97,7 +97,7 @@ class Actor {
 		/**
 		 * @brief	Destructor
 		 */
-		~Actor();
+		virtual ~Actor();
 
 	protected:
 		/**

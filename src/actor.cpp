@@ -16,7 +16,8 @@
 //
 Actor::Actor() :
 		transformedSprite(nullptr),
-		transformationsDirty(UNCHANGED) {
+		transformationsDirty(UNCHANGED), 
+		visible(true) {
 	this->load();
 }
 

@@ -129,6 +129,9 @@ class Game {
 		/// Target FPS for the game loop
 		const static int TARGET_FPS = 60;
 
+		/// Scalar for percentTimeElapsed
+		const static int PERCENT_SCALE = 100;
+
 		// Test Sprites
 		FontSprite* frameRateSprite;
 		int lastFPS;

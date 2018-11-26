@@ -30,7 +30,11 @@ void StaticActor::update(double percentTimeElapsed) {
 // 
 // render ()
 //
-void StaticActor::render(const Window& window) {
+void StaticActor::render(const Drawable& window) {
+	if(!this->isVisible())
+		return;
+	
+	// Render
 	this->transformedSprite->draw(this->position.getX(), this->position.getY(), window);
 }
 
@@ -52,5 +56,5 @@ Vector2D StaticActor::getPosition() {
 // Destructor 
 //
 StaticActor::~StaticActor() {
-
+	Actor::~Actor();
 }

@@ -113,7 +113,14 @@ class BaseSprite : public Sprite {
 		 * @param	int 	y
 		 * @param	Window	destination
 		 */
-		virtual void draw(int x, int y, Window destination);
+		virtual void draw(int x, int y, Drawable destination);
+
+		/**
+		 * @brief	Duplicate the properties of this Sprite and copy the image onto a new Pixmap
+		 * 
+		 * @return	Sprite* 	Clone of this sprite, caller is responsible for deletion
+		 */
+		virtual Sprite* clone();
 
 		/**
 		 * 	@brief	Destructor

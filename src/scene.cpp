@@ -10,6 +10,7 @@
 #include <algorithm>
 
 #include "scene.h"
+#include "dynamic_actor.h"
 
 //
 // Initializing Constructor for XScreen and Scene
@@ -35,9 +36,14 @@ void Scene::load() {
 //
 void Scene::update(double percentElapsedTime) {
 	if(!this->isScenePaused) {
-		// call update on each actor
+		// call update and check bounds on each actor
 		std::for_each(this->actors.begin(), this->actors.end(), [&] (auto& it) {
 			it.second->update(percentElapsedTime);
+
+			// Check if it is a dynamic Actor and if so check its bounds
+			DynamicActor* actor = dynamic_cast<DynamicActor*>(it.second);
+			if(actor)
+				actor->checkBounds(this->width, this->height);
 		});
 
 		// TODO: Possible process collisions
@@ -48,6 +54,8 @@ void Scene::update(double percentElapsedTime) {
 // render
 //
 void Scene::render() {
+	XClearWindow(XDisplay::getDisplay(), this->mainWindow);
+
 	// Call render on each actor
 	std::for_each(this->actors.begin(), this->actors.end(), [&] (auto& it) {
 		it.second->render(this->mainWindow);
@@ -93,5 +101,8 @@ void Scene::play() {
 // Destructor 
 //
 Scene::~Scene() {
-
+	std::for_each(this->actors.begin(), this->actors.end(),
+		[](auto &it) {
+			delete it.second;
+		});
 }

@@ -21,6 +21,14 @@ Vector2D::Vector2D() :
 	y(0) {
 
 }
+//
+// Initializing Constructor
+//
+Vector2D::Vector2D(double x, double y) : 
+	x(x),
+	y(y) {
+
+}
 
 //
 // Copy Constructor
@@ -47,6 +55,7 @@ Vector2D& Vector2D::operator=(const Vector2D& rhs) {
 	// Skip self assignment check
 	this->x = rhs.x;
 	this->y = rhs.y;
+	return *this;
 }
 
 // 
@@ -89,6 +98,7 @@ Vector2D operator-(Vector2D lhs, const Vector2D& rhs) {
 Vector2D& Vector2D::operator*=(const double& rhs) {
 	this->x *= rhs;
 	this->y *= rhs;
+	return *this;
 }
 
 // 
