@@ -28,7 +28,7 @@ void TitleScene::load() {
 	DynamicActor* a = new SmileyActor();
 	a->setPosition(Vector2D(150, 150));
 	a->setVelocity(Vector2D(20, 20));
-	a->setBoundsAction(STOP);
+	a->setBoundsAction(BOUNCE);
 	this->actors["image"] = a;
 }
 

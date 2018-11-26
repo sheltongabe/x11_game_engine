@@ -66,16 +66,9 @@ void DynamicActor::checkBounds(unsigned int width, unsigned int height) {
 			break;
 		
 		case STOP:
-			int newX, newY;
-			if(x < 0) 
-				newX = 0;
-			if(x + > width) 
-				this->position.setX(0);
-			if(y - this->transformedSprite->getSpriteHeight() < 0) 
-				this->position.setY(height);
-			if(y > height) 
-				this->position.setY(0);
-			this->velocity = Vector2D(0, 0);
+			if(x < 0 || x + this->transformedSprite->getSpriteWidth() > width
+					|| y < 0 || y + this->transformedSprite->getSpriteHeight() > height)
+				this->velocity = Vector2D(0, 0);
 			break;
 	}
 }
