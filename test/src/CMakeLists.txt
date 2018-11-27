@@ -11,11 +11,11 @@ set(EXE_NAME ${LIBRARY_NAME}_test)
 project(EXE_NAME)
 
 # Include Headers
-include_directories(${PROJECT_SOURCE_DIR}/../include ${PROJECT_SOURCE_DIR}/../../include)
+include_directories(${PROJECT_SOURCE_DIR}/../include ${PROJECT_SOURCE_DIR}/../../include ${PROJECT_SOURCE_DIR}/../images)
 
 add_executable(${EXE_NAME}
 	"main.cpp"
-	"pong.cpp"
+	"shooter_game.cpp"
 	"smiley_actor.cpp"
 	"title_scene.cpp"
 )

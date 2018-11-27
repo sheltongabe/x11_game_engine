@@ -1,10 +1,10 @@
 #include <thread>
 #include <chrono>
-#include "pong.h"
+#include "shooter_game.h"
 
 int main() {
 	
-	Pong game("Pong", "Pong", 800, 600);
+	ShooterGame game("Shooter Game", "Shooter Game", 1600, 900);
 	game.mainLoop();
 
 	return 0;
