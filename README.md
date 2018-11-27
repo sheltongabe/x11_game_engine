@@ -2,14 +2,7 @@
 
 Wrap X11 C level calls, to look like a normal 2d game engine, with C++14.
 
-## Status V0.1
-
-* [x] Compile and Run [loading an empty screen]  
-* [ ] Fixing Image Sprites
-* [ ] Adding a Sprite Registry
-* [ ] Adding additional basic Actor (LabelActor)
-
-I am now mostly out of the refactor stage
+## Status: Version 0.1 (stable)
 
 ## Install, Compile, and Run
 
@@ -30,5 +23,5 @@ I am now mostly out of the refactor stage
    * The static library is in the lib/ folder
    * But you can test the test executable that is linked to the game engine library by going into the bin/ folder
    * `cd bin/ && ./x11_game_engine_test`
-   * And you can also run valgrind against it of course, right now I have been struggling to free colors so, it
-     always leaks 180 bytes due to that.
+   * And you can also run valgrind against it of course, right now I have been struggling to free colors and images
+     so, it always leaks ~150,000 bytes due to that.
