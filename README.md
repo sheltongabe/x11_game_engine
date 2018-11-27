@@ -2,7 +2,14 @@
 
 Wrap X11 C level calls, to look like a normal 2d game engine, with C++14.
 
-## Status: Version 0.1 (stable)
+## Status: Version 0.2 (unstable)
+
+* [ ] Build the Event Structure, where Scene can also handle events
+* [ ] Add double buffering to XScreen
+* [ ] Add Actor collision check
+* [ ] Add SpriteRegister
+* [ ] Add Actor::transform() / Actor::rotate(angle)
+* [ ] Place a Messerschmidt in the middle of the TestScene and begin implementing the game
 
 ## Install, Compile, and Run
 
@@ -23,5 +30,5 @@ Wrap X11 C level calls, to look like a normal 2d game engine, with C++14.
    * The static library is in the lib/ folder
    * But you can test the test executable that is linked to the game engine library by going into the bin/ folder
    * From the repository root: `cd bin/ && ./x11_game_engine_test`
-   * And you can also run valgrind against it of course, right now I have been struggling to free colors and images
-     so, it always leaks ~150,000 bytes due to that.
+   * You can of course run valgrind to check for memory leaks, however I have been having trouble dealing with colors
+     and colormaps, which I believe to be the cause of me leaking ~29,000 bytes of memory.

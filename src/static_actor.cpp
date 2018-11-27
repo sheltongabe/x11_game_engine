@@ -56,5 +56,5 @@ Vector2D StaticActor::getPosition() {
 // Destructor 
 //
 StaticActor::~StaticActor() {
-	Actor::~Actor();
+
 }

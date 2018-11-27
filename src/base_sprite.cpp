@@ -112,7 +112,6 @@ Sprite* BaseSprite::clone() {
 // Destructor 
 //
 BaseSprite::~BaseSprite() {
-	Sprite::~Sprite();
 	auto display = XDisplay::getDisplay();
 	XFreeGC(display, this->graphicsContext);
 	XFreePixmap(display, this->image);

@@ -119,5 +119,5 @@ void DynamicActor::setBoundsAction(const BoundsAction& action) {
 // Destructor 
 //
 DynamicActor::~DynamicActor() {
-	StaticActor::~StaticActor();
+
 }

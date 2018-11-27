@@ -84,5 +84,5 @@ Sprite* ImageSprite::clone() {
 // Destructor 
 //
 ImageSprite::~ImageSprite() {
-	BaseSprite::~BaseSprite();
+
 }
